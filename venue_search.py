@@ -61,9 +61,9 @@ def get_stores(ad):
         # print(our_search)
 
     params = {
-        'api_key_private': 'pri_7959c27f51a248c69dec8f2fb33c1cd2',
+        'api_key_private': 'pri_12ad9f0193da454c93f8f62dae7c5eac',
         'q': our_search,
-        'num': 20,
+        'num': 10,
         'fast': False
     }
 
@@ -124,7 +124,7 @@ def get_stores(ad):
 
     # this code is for when we have access to the url again
 
-    time.sleep(15)
+    time.sleep(12)
     venue_info = requests.get(url_for_data).json()
     lst_dic = venue_info.get("venues")
 

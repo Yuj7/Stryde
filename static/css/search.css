@@ -43,7 +43,25 @@ body.home{
     font-family: Century Gothic;
 
 }
+input[id=result] {
+    width: 41%;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 25px;
+    border-width: 1px;
 
+  }
+button[id=searched] {
+width: 20%;
+background-color: #FC7355;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+border-radius: 35px;
+cursor: pointer;
+
+}
 #account {
     font-size: 12px;
     text-align:center;

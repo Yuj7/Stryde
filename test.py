@@ -74,63 +74,63 @@ if ran:
 
 @app.route("/heatmap_button2")
 def heatmap2():
-    all_days = stores[14:21]
+    all_days = venue_search.get_stores(freq)[1][14:21]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button3")
 def heatmap3():
-    all_days = stores[21:28]
+    all_days = venue_search.get_stores(freq)[1][21:28]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button4")
 def heatmap4():
-    all_days = stores[28:35]
+    all_days = venue_search.get_stores(freq)[1][28:35]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button5")
 def heatmap5():
-    all_days = stores[35:42]
+    all_days = venue_search.get_stores(freq)[1][35:42]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button6")
 def heatmap6():
-    all_days = stores[42:49]
+    all_days = venue_search.get_stores(freq)[1][42:49]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button7")
 def heatmap7():
-    all_days = stores[49:56]
+    all_days = venue_search.get_stores(freq)[1][49:56]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button8")
 def heatmap8():
-    all_days = stores[56:63]
+    all_days = venue_search.get_stores(freq)[1][56:63]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button9")
 def heatmap9():
-    all_days = stores[63:70]
+    all_days = venue_search.get_stores(freq)[1][63:70]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button10")
 def heatmap10():
-    all_days = stores[70:79]
+    all_days = venue_search.get_stores(freq)[1][70:79]
     return render_template("graph.html", all_days=all_days)
 
-
+'''
 @app.route("/heatmap_button11")
 def heatmap11():
     all_days = stores[79:86]
     return render_template("graph.html", all_days=all_days)
-
+'''
 
 if __name__ == '__main__':
     port = 1120  # the custom port you want
