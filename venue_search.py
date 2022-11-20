@@ -14,7 +14,7 @@ def get_stores(ad):
     # print(f"Hostname: {hostname}")
     # print(f"IP Address: {ip_address}")
 
-    my_url = "https://geolocation-db.com/json/" + "142.157.215.88" + ".79&position=true"
+    my_url = "https://geolocation-db.com/json/" + ip_address + ".79&position=true"
 
     # print("my ip address: ", ip_address)
 
@@ -61,7 +61,7 @@ def get_stores(ad):
         # print(our_search)
 
     params = {
-        'api_key_private': 'pri_71a7b209702843c2a5bcedc699b13db8',
+        'api_key_private': 'pri_7959c27f51a248c69dec8f2fb33c1cd2',
         'q': our_search,
         'num': 20,
         'fast': False
@@ -124,7 +124,7 @@ def get_stores(ad):
 
     # this code is for when we have access to the url again
 
-    time.sleep(10)
+    time.sleep(15)
     venue_info = requests.get(url_for_data).json()
     lst_dic = venue_info.get("venues")
 

@@ -36,14 +36,13 @@ def search():
         return render_template("search.html")
 
 
-
 # BUTTONS FOR DIFFERENT VENUES' HEATMAP
 
 @app.route('/home_button')
 def home():
     if ran:
         d = names
-        city = citi
+        city = cit
     else:
         d, nothing, city = venue_search.get_stores(freq)
     return render_template("home.html", d=d, city=city)
@@ -54,13 +53,20 @@ if ran:
 
 @app.route("/heatmap_button0")
 def heatmap():
-    all_days = stores[0:7]
+    if ran:
+        all_days = stores[0:7]
+    else:
+        all_days = venue_search.get_stores(freq)[1][0:7]
     return render_template("graph.html", all_days=all_days)
 
 
 @app.route("/heatmap_button1")
 def heatmap1():
-    all_days = stores[7:14]
+    if ran:
+        all_days = stores[7:14]
+    else:
+        all_days = venue_search.get_stores(freq)[1][7:14]
+
     return render_template("graph.html", all_days=all_days)
 
 if ran:
@@ -127,5 +133,5 @@ def heatmap11():
 
 
 if __name__ == '__main__':
-    port = 1100  # the custom port you want
+    port = 1120  # the custom port you want
     app.run(host='127.0.0.1', port=port)
