@@ -1,0 +1,178 @@
+
+body.header{
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(4,9,30,0,7), rgba(4,9,30,7)),url(img/night.jpg);
+    background-size: cover;
+    position: relative;
+}
+
+}
+
+@font-face {
+  font-family: Century Gothic;
+  src: url(assets/webfonts/CenturyGothic.ttf);
+}
+
+.square{
+    background-color: white;
+    padding: 50px 0px;
+    border: 1px solid #FAF9F6;
+    border-radius: 25px;
+    width: 50%;
+    margin:auto;
+    margin-top:5%;
+    margin-bottom:5%;
+    text-align: center;
+    font-family: Century Gothic;
+}
+
+body.base {
+    font-family: Century Gothic;
+    background-color: #FAF9F6;
+}
+body.title{
+    background-color:#f5bd3b;
+
+
+}
+.intro{
+    font-family: Century Gothic ;
+}
+body.home{
+    font-family: Century Gothic;
+
+}
+
+#account {
+    font-size: 12px;
+    text-align:center;
+}
+
+#account_terms {
+    font-size: 15px;
+    text-align:center;
+}
+
+input[type=email] {
+    width: 20%;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 25px;
+    border-width: 1px;
+
+}
+input[type=password] {
+    width: 20%;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-radius: 25px;
+    border-width: 1px;
+}
+input[id=login] {
+    width: 15%;
+    background-color: #FC7355;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+
+  }
+input[id=signup] {
+  width: 15%;
+  background-color: #40C267;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+
+button[id=getstarted] {
+  width: 40%;
+  background-color: #fafafa;
+  color: #525252;
+  border-color: #a7a7a7;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border-width: 1px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+button[id=getstarted]:hover {
+  width: 40%;
+  background-color: #fafafa;
+  color: #FC7355;
+  border-color: #FC7355;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border-width: 1px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+button[id=start] {
+  width: 40%;
+  right: 0;
+  top: 0;
+  background-color: #fafafa;
+  color: #525252;
+  border-color: #a7a7a7;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border-width: 1px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+button[id=start]:hover {
+  width: 40%;
+  background-color: #fafafa;
+  color: #FC7355;
+  border-color: #FC7355;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border-width: 1px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+/* Split the screen in half */
+.split {
+  height: 100%;
+  width: 45%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 50%;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  max-height: 100%;
+  padding:0px;
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 27%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
+

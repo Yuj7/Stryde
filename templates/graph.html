@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- ApexCharts CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.17.1/apexcharts.min.css"
+  integrity="sha256-Z+b0591KmC0xEn2bVTikG6Ic6LzwqrV5x7IXZpTKI2o=" crossorigin="anonymous" />
+</head>
+<body style="background-color:#eed384">
+
+<!-- The div where the chart will be shown. A width and heigth is required -->
+<div id="footTrafficWeekHeatmap" style="width:800px; height:600px; margin:auto; margin-top: 15%; margin-bottom:15%" ></div>
+
+</body>
+</html>
+
+<!-- ApexCharts is used to generate the graph -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.8.6/apexcharts.min.js"
+integrity="sha256-fPasH9WrBndkSzQggD2jDhtCOJ8MapJPWFDUjLGPNPM=" crossorigin="anonymous"></script>
+
+<!-- Script to get the foot traffic from the BestTime API and vizualize the data using eCharts -->
+<script>
+
+
+// Heatmap colors and categories
+var busyCategories = {
+    notBusy: {
+        min: 1,
+        max: 39,
+        name: 'Not busy',
+        color: '#00A100'
+    },
+    littleBusy: {
+        min: 40,
+        max: 69,
+        name: 'Little busy',
+        color: '#FFB200'
+    },
+    Busy: {
+        min: 70,
+        max: 500,
+        name: "Busy",
+        color: '#FF0000'
+    }
+}
+
+var sampleData = {{all_days}}
+
+// Graph options
+var options = {
+        series: [
+            {
+                name: 'Sun',
+                data: sampleData[6]
+            },
+            {
+                name: 'Sat',
+                data: sampleData[5]
+            },
+            {
+                name: 'Fri',
+                data: sampleData[4]
+            },
+            {
+                name: 'Thu',
+                data: sampleData[3]
+            },
+            {
+                name: 'Wed',
+                data: sampleData[2]
+            },
+            {
+                name: 'Tue',
+                data: sampleData[1]
+            },
+            {
+                name: 'Mon',
+                data: sampleData[0]
+            }
+        ],
+        chart: {
+            height: 350,
+            type: 'heatmap',
+        },
+        plotOptions: {
+            heatmap: {
+                shadeIntensity: 0.5,
+                //radius: 10,
+                useFillColorAsStroke: true,
+                colorScale: {
+                    ranges: [
+                        //{
+                        //     from: 0,
+                        //     to: 1,
+                        //     name: 'Closed',
+                        //     color: '#00A100'
+                        // },
+                        {
+                            from: busyCategories.notBusy.min,
+                            to: busyCategories.notBusy.max,
+                            name: busyCategories.notBusy.name,
+                            color: busyCategories.notBusy.color
+                        },
+                        {
+                            from: 40,
+                            to: 69,
+                            name: 'Usually a little busy',
+                            color: '#FFB200'
+                        },
+                        {
+                            from: 70,
+                            to: 100,
+                            name: 'As busy as it gets',
+                            color: '#FF0000'
+                        }
+                    ]
+                }
+            }
+        },
+        dataLabels: {
+            enabled: false,
+            formatter: function (val) {
+                return val + "%";
+            }
+        },
+        xaxis: {
+            labels: {
+                rotate: 90,
+                rotateAlways: true,
+                trim: false,
+                hideOverlappingLabels: true,
+                //min: 4, //clip x-axis based on category index
+                //max: 10,
+                offsetY: 25,
+            },
+            categories: ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM',
+                '7PM', '8PM', '9PM', '10PM', '11PM', '12AM', '1AM', '2AM', '3AM', '4AM', '5AM'],
+            tickPlacement: 'between' // 'on'
+        },
+        axisTicks: {
+            show: true,
+            borderType: 'solid',
+            color: '#78909C',
+            height: 6,
+            offsetX: 30,
+            offsetY: 0
+        },
+        stroke: {
+            width: 1
+        },
+        title: {
+            text: 'Forcast For This Store: '
+        },
+        tooltip: {
+            enabled: true,
+            x: {
+                show: false
+              },
+            y: {
+                formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                    
+                  return  value + "%";
+                }
+              },
+            fixed: {
+                enabled: false,
+                position: 'middle',
+                offsetX: 0,
+                offsetY: 0,
+            },
+            // x: {
+            //   format: 'HH'
+            // },
+        },
+    };
+
+chart = new ApexCharts(document.querySelector("#footTrafficWeekHeatmap"), options);
+chart.render();
+
+function getFootTrafficData() {
+
+    const params = new URLSearchParams({ 
+    'api_key_private': document.getElementById("api_key_private").value,
+    'venue_name': document.getElementById("venue_name").value,
+    'venue_address': document.getElementById("venue_address").value
+    });
+
+    fetch(`https://besttime.app/api/v1/forecasts?${params}`, {
+    method: 'POST'
+    }).then((response) => response.json())
+    .then((data) => {
+        
+        console.log(data)
+
+        document.getElementById("btnForecast").disabled = false;
+
+        if (data.status == "error") {
+
+            if ('message' in data) {
+                console.log();
+                if ('api_key_private' in data) {
+                    alert(JSON.stringify(data.message.api_key_private[0]))
+                } else {
+                    alert(JSON.stringify(data.message))
+                    console.log(data.message)
+                }
+            }
+        } else {
+
+            // Find longest opening hours of the week
+            open_ix = []
+            close_ix = []
+
+            data.analysis.forEach(function (item, index) {
+                venue_open = item.day_info.venue_open;
+                venue_closed = item.day_info.venue_closed;
+
+                if (venue_open != "Closed") {
+                    open_ix.push(hour2index(venue_open));
+                    close_ix.push(hour2index(venue_closed));
+                }
+            });
+
+            open_ix_min = Math.min(...open_ix);
+            close_ix_max = Math.max(...close_ix);
+
+            if (open_ix_min > close_ix_max || open_ix_min == close_ix_max )  {
+                // Do not slice if open hour has greater index value than close (e.g. close and opens midnight)
+                open_ix_min = 0;
+                close_ix_max = 23;
+            } else {
+
+                // Adjust 
+                //open_ix_min = 0;
+                close_ix_max = close_ix_max;
+            }
+
+            chart.updateOptions({
+                title: {
+                    text: 'Week foot traffic forecast for ' + data.venue_info.venue_name + ' ' + data.venue_info.venue_address
+                },
+                xaxis: {
+                    // The hours for the X-axis are sliced to the range of the longest opening hours of the week
+                    categories: ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM',
+                    '7PM', '8PM', '9PM', '10PM', '11PM', '12AM', '1AM', '2AM', '3AM', '4AM', '5AM'].slice(open_ix_min, close_ix_max)
+                }
+            });
+
+            chart.updateSeries([
+                {
+                    name: 'Sun',
+                    data: data.analysis[6].day_raw.slice(open_ix_min, close_ix_max)
+                },
+                {
+                    name: 'Sat',
+                    data: data.analysis[5].day_raw.slice(open_ix_min, close_ix_max)
+                },
+                {
+                    name: 'Fri',
+                    data: data.analysis[4].day_raw.slice(open_ix_min, close_ix_max)
+                },
+                {
+                    name: 'Thu',
+                    data: data.analysis[3].day_raw.slice(open_ix_min, close_ix_max)
+                },
+                {
+                    name: 'Wed',
+                    data: data.analysis[2].day_raw.slice(open_ix_min, close_ix_max)
+                },
+                {
+                    name: 'Tue',
+                    data: data.analysis[1].day_raw.slice(open_ix_min, close_ix_max)
+                },
+                {
+                    name: 'Mon',
+                    data: data.analysis[0].day_raw.slice(open_ix_min, close_ix_max)
+                }
+            ])
+
+        }
+
+    })
+    .catch(error => {
+        console.error;
+        document.getElementById("btnForecast").disabled = false;
+    });
+
+
+}
+
+// Load on page load
+//getFootTrafficData();
+
+// Reload the forecast data when clicking the Forecast button
+document.getElementById("btnForecast").addEventListener('click', (event) => {
+    event.preventDefault();
+
+    document.getElementById("btnForecast").disabled = 'true';
+    
+    getFootTrafficData();
+});
+
+
+// Convert the hour to the correct array index value
+function hour2index(hour) {
+
+if (hour >= 6 && hour <= 23) {
+    index = hour - 6
+} else {
+    index = hour + 18
+}
+
+// console.log(hour, index)
+
+return index
+}
+
+</script>

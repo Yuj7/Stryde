@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/main.css') }}">
+	<link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
+	<title>Stryde by Jacqueline Wu, Yujie Chen, Steven Kim and Eric Joung</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+</head>
+	<body class="homepage is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+
+					<!-- Banner -->
+					<!--
+						<section id="banner">
+							<header>
+								<h2> Stryde </h2>
+								<p> Find the most crowded places right here </p>
+							</header>
+						</section>
+						-->
+
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Stores -->
+									<div>
+										<header class="major">
+											<h2> Search results ranked by busyness </h2>
+										</header>
+
+										<ul>
+										{% for key, value in d.items() %}
+
+											<div class="row"style = "font-family: century-gothic">
+												<div class="col-4 col-6-medium col-12-small">
+													<section class="box">
+														<a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
+														<header>
+															<h3>{{key}}</h3>
+														</header>
+															<p> {{value[0]}}</p>
+														<b><h1>Opening hours:</h1></b>
+																{% for k,v in value[1].items() %}
+
+														<th>{{k}}:	{{v}}</th><br>
+															{% endfor %}
+
+														<footer>
+															<ul class="actions">
+																<!-- we want href to be automatically generated with the heat map -->
+																<li><a href=heatmap_button{{value[2]}} class="button alt">See heatmap</a></li>
+																<li><a class = "button alt">Add to favorite</a></li>
+
+															</ul>
+														</footer>
+													</section>
+												</div>
+											{% endfor %}
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+								<div>
+		<input type="submit" value="Sign out" id="signout">
+									<input type="submit" value="Go To Fav" id="gotofavorite">
+        <a href= index_button id="index"></a>
+								</div>
+
+	</body>
+</html>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+    import { 
+        getAuth,
+        onAuthStateChanged,
+        signOut
+     } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
+     import {getDatabase, set, ref, update} from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+    
+    
+    const firebaseConfig = {
+    apiKey: "AIzaSyDm6jtU5A6QJHRUlATDXEYekNjbrrdEZBE",
+    authDomain: "codejam2022-7c320.firebaseapp.com",
+    projectId: "codejam2022-7c320",
+    storageBucket: "codejam2022-7c320.appspot.com",
+    messagingSenderId: "424895343452",
+    appId: "1:424895343452:web:c5957662320246911baf99",
+    measurementId: "G-JKVDPDMXXJ"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+    const database = getDatabase(app);
+
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+        console.log("user signed in");
+    } else {
+        // User is signed out
+        document.getElementById('index').click();
+
+    }
+    });
+
+    signout.addEventListener('click', (e) => {
+        // sign out user
+        signOut(auth).then(() => {
+               // Sign-out successful.
+               alert('user signed out successfully');
+               document.getElementById('index').click();
+        }).catch((error) => {
+            // An error happened.
+        });
+
+    });
+        
+    </script>

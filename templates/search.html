@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CODEJAM2022</title>
+        <!--<link rel="stylesheet" href="index.css">-->
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/search.css') }}">
+        <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
+    </head>
+
+
+<body class="base">
+
+<div class="square">
+    <p><img src="{{ url_for('static', filename= 'img/Logo.png') }}" style="width:25%;height:25%;"></p>
+
+
+<div id="text">
+    <form action="search_button"  method="post">
+    <label for="result">Input Search</label>
+    <input type="search" placeholder="Supermarkets, malls, restaurants, etc" name = "searched" id="result"  required ><br>
+
+        <a href = search_button><button id="searched"> Submit Search </button></a>
+    <!-- <input type="submit" value="Start Search" > <br>
+    <a href= search_button id="home"></a> -->
+    </form>
+
+    </div>
+</div>
+
+
+
+</body>
+
+</html>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+ } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
+ import {getDatabase, set, ref} from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyDm6jtU5A6QJHRUlATDXEYekNjbrrdEZBE",
+authDomain: "codejam2022-7c320.firebaseapp.com",
+projectId: "codejam2022-7c320",
+storageBucket: "codejam2022-7c320.appspot.com",
+messagingSenderId: "424895343452",
+appId: "1:424895343452:web:c5957662320246911baf99",
+measurementId: "G-JKVDPDMXXJ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth();
+const database = getDatabase(app);
+
+signup.addEventListener('click', (e) => {
+    var email = document.getElementById('email').value
+    var password = document.getElementById('password').value
+
+    //sign up user
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            // ... user.uid
+            set(ref(database, 'users/' + user.uid), {
+                email: email,
+                password: password
+            })
+                .then(() => {
+                    // Data saved successfully!
+                    alert('user created successfully');
+                    document.getElementById('home').click();
+
+                })
+                .catch((error) => {
+                    // The write failed...
+                    alert(error);
+                });
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+        });
+});
+
+
+</script>
