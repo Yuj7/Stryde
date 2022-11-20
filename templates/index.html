@@ -22,14 +22,9 @@
     <input type="email" placeholder="Email" id="email" required><br>
     <input type="password" placeholder="Password" id="password" required><br>
     <div id="account"><a href=register_button>Don't have an account?</a></div><br>
-    <input type="submit" value="Log in" id="login"><br>
-    <a href= search_button><button id="home"></button></a>
+    <a href= search_button><button id="login">Log in</button></a>
 </div>
 </div>
-
-
-
-
 </body>
 
 </html>
@@ -79,7 +74,7 @@ login.addEventListener('click', (e) => {
             })
                 .then(() => {
                     // Data saved successfully!
-                    document.getElementById('home').click();
+                    document.getElementById('login').click();
                 })
                 .catch((error) => {
                     // The write failed...
